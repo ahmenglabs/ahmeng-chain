@@ -1,4 +1,5 @@
 node_modules
 dist
 
-**/database.json
+**/blockDatabase.json
+**/userCache.json

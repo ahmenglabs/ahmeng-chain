@@ -6,27 +6,27 @@ import { type Block } from "../types/block.js"
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const databasePath = path.join(__dirname, "../data/database.json")
+const blockDatabasePath = path.join(__dirname, "../data/blockDatabase.json")
 
-if (!fs.existsSync(databasePath)) {
-  fs.writeFileSync(databasePath, JSON.stringify([]))
+if (!fs.existsSync(blockDatabasePath)) {
+  fs.writeFileSync(blockDatabasePath, JSON.stringify([]))
 }
 
-const database = JSON.parse(fs.readFileSync(databasePath, "utf-8"))
+const blockDatabase: Block[] = JSON.parse(fs.readFileSync(blockDatabasePath, "utf-8"))
 
 const blockManager = {
   getLatestBlock: () => {
-    return database.blocks[database.blocks.length - 1]
+    return blockDatabase[blockDatabase.length - 1]
   },
   getBlockById: (id: string) => {
-    return database.blocks.find((block: Block) => block.id === id)
+    return blockDatabase.find((block: Block) => block.id === id)
   },
   getBlocksByHeight: (height: number) => {
-    return database.blocks.filter((block: Block) => block.height === height)
+    return blockDatabase.filter((block: Block) => block.height === height)
   },
   addNewBlock: (block: Block) => {
-    database.blocks.push(block)
-    fs.writeFileSync(databasePath, JSON.stringify(database, null, 2))
+    blockDatabase.push(block)
+    fs.writeFileSync(blockDatabasePath, JSON.stringify(blockDatabase, null, 2))
   },
 }
 
